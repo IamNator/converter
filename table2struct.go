@@ -22,7 +22,7 @@ var typeForMysqlToGo = map[string]string{
 	"bigint":             "int64",
 	"int unsigned":       "int64",
 	"integer unsigned":   "int64",
-	"tinyint unsigned":   "int64",
+	"tinyint unsigned":   "bool",
 	"smallint unsigned":  "int64",
 	"mediumint unsigned": "int64",
 	"bigint unsigned":    "int64",

@@ -15,6 +15,7 @@ CREATE TABLE `prefix_user` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Email` varchar(32) NOT NULL DEFAULT '' COMMENT '邮箱',
   `Password` varchar(32) NOT NULL DEFAULT '' COMMENT '密码',
+  `Status` tinyint NOTNULL DEFAULT 0 
   `CreatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表'
@@ -115,6 +116,7 @@ type User struct {
 	Id         int     `json:"Id" orm:"Id"`
 	Email      string  `json:"Email" orm:"Email"`           // 邮箱
 	Password   string  `json:"Password" orm:"Password"`     // 密码
+	Status     bool     `json:"Status" orm:"Status"`
 	CreatedAt  string  `json:"CreatedAt" orm:"CreatedAt"`
 }
 
