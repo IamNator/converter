@@ -58,7 +58,7 @@ func main() {
 }
 ```
 
-## golang代码详细用法示例
+## Simple usage of golang code
 ```go
 package main
 
