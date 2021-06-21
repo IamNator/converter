@@ -4,18 +4,19 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"os"
 	"os/exec"
 	"strings"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 //map for converting mysql type to golang types
 var typeForMysqlToGo = map[string]string{
 	"int":                "int64",
 	"integer":            "int64",
-	"tinyint":            "int64",
+	"tinyint":            "bool",
 	"smallint":           "int64",
 	"mediumint":          "int64",
 	"bigint":             "int64",
