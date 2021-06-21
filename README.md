@@ -1,15 +1,15 @@
 a lib for golang , generate mysql table schema to golang struct  
 -----
-mysql表结构自动生成golang struct  
+mysql table structure automatically generates golang struct
 
-## github地址
+## github address
 [https://github.com/gohouse/converter](https://github.com/gohouse/converter)
 
-## 安装
-1. 直接下载可执行文件: [下载地址](https://github.com/gohouse/converter/releases)  
-2. golang源码包: `go get github.com/gohouse/converter`
+## installation
+1. Download the executable file directly: [download address](https://github.com/gohouse/converter/releases)  
+2. golang source package: `go get github.com/gohouse/converter`
 
-## 示例表结构
+## Example table structure
 ```sql
 CREATE TABLE `prefix_user` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
@@ -18,27 +18,27 @@ CREATE TABLE `prefix_user` (
   `Status` tinyint NOTNULL DEFAULT 0 
   `CreatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT= ' User table '
 ```
 
-## 命令行用法
-1. 下载对应平台的可执行文件, [下载地址](https://github.com/gohouse/converter/releases)
+## Command line usage
+1. Download the executable file of the corresponding platform, [download address](https://github.com/gohouse/converter/releases)
 
-2. 命令行执行
+2. Command line execution
     ```sh
     # 文件名: table2struct-[$platform].[$version].[$suffix]
     ./table2struct-linux.v0.0.3.bin -file model.go -dsn xxx -table user
     ```
 
-3. 参数说明
+3. Parameter Description
 ```sh
--dsn            string 数据库dsn配置
--enableJsonTag  bool 是否添加json的tag
--file           string 保存路径
+-dsn string database dsn configuration
+-enableJsonTag bool Whether to add json tag
+-file string save path
 -packageName    string 包名
--prefix         string 表前缀
--realNameMethod string 结构体对应的表名
--table          string 要迁移的表
+-prefix string table prefix
+-realNameMethod string table name corresponding to the structure
+-table string the table to be migrated
 -tagKey         string tag的key
 ```
 
@@ -67,40 +67,47 @@ import (
 	"github.com/gohouse/converter"
 )
 
-func main() {
-	// 初始化
-	t2t := converter.NewTable2Struct()
-	// 个性化配置
-	t2t.Config(&converter.T2tConfig{
-		// 如果字段首字母本来就是大写, 就不添加tag, 默认false添加, true不添加
-		RmTagIfUcFirsted: false,
-		// tag的字段名字是否转换为小写, 如果本身有大写字母的话, 默认false不转
-		TagToLower: false,
-		// 字段首字母大写的同时, 是否要把其他字母转换为小写,默认false不转换
-		UcFirstOnly: false,
-		//// 每个struct放入单独的文件,默认false,放入同一个文件(暂未提供)
+package main
+
+import (
+	"fmt"
+	"github.com/gohouse/converter"
+)
+
+func  main () {
+	 // Initialize 
+	t2t  :=  converter . NewTable2Struct ()
+	 // Personalized configuration 
+	t2t . Config ( & converter. T2tConfig {
+		 // If the first letter of the field is originally uppercase, no tag is added, default false is added, true Do not add 
+		RmTagIfUcFirsted : false ,
+		 // Whether the field name of the tag is converted to lowercase, if it has uppercase letters, the default is false. 
+		TagToLower : false ,
+		 // While the first letter of the field is capitalized, whether to convert other letters to lowercase, The default false does not convert 
+		UcFirstOnly : false ,
+		 //// Each struct is placed in a separate file, the default is false, placed in the same file (not provided yet) 
 		//SeperatFile: false,
 	})
-	// 开始迁移转换
-	err := t2t.
-		// 指定某个表,如果不指定,则默认全部表都迁移
-		Table("user").
-		// 表前缀
-		Prefix("prefix_").
-		// 是否添加json tag
-		EnableJsonTag(true).
-		// 生成struct的包名(默认为空的话, 则取名为: package model)
-		PackageName("model").
-		// tag字段的key值,默认是orm
-		TagKey("orm").
-		// 是否添加结构体方法获取表名
-		RealNameMethod("TableName").
-		// 生成的结构体保存路径
-		SavePath("/Users/fizz/go/src/github.com/gohouse/gupiao/model/model.go").
-		// 数据库dsn,这里可以使用 t2t.DB() 代替,参数为 *sql.DB 对象
-		Dsn("root:root@tcp(localhost:3306)/test?charset=utf8").
-		// 执行
-		Run()
+	// Start the migration conversion 
+	err  :=  t2t .
+		 // Specify a table, if not specified, all tables are migrated by default 
+		Table ( "user" ).
+		 // Table prefix 
+		Prefix ( "prefix_" ).
+		 // Whether to add json tag 
+		EnableJsonTag ( true ).
+		 // Generate the package name of the struct (if it is empty by default, the name is: package model) 
+		PackageName ( "model" ).
+		 // The key value of the tag field, the default is orm 
+		TagKey ( "orm" ).
+		 // Whether to add a structure method to obtain the table name 
+		RealNameMethod ( "TableName" ).
+		 // The generated structure save path 
+		SavePath ("/Users/fizz/go/src/github.com/gohouse/gupiao/model/model.go" ).
+		 // Database dsn, here you can use t2t.DB() instead, the parameter is *sql.DB object 
+		Dsn ( "root:root@tcp(localhost:3306)/test?charset=utf8" ).
+		 // Execute 
+		Run ()
 	
 	fmt.Println(err)
 }
